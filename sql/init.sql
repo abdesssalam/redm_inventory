@@ -52,3 +52,30 @@ CREATE TABLE IF NOT EXISTS bot_bill_message (
   updated_at DATETIME NOT NULL,
   PRIMARY KEY (guild_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS ledger_logs (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  timestamp DATETIME NOT NULL,
+  amount INT NOT NULL,
+  action ENUM('DEPOSIT','WITHDRAW') NOT NULL,
+  player_name VARCHAR(255) NOT NULL,
+  business_name VARCHAR(255) NOT NULL,
+  discord_message_id BIGINT NOT NULL,
+  UNIQUE KEY uniq_ledger_discord_message_id (discord_message_id),
+  INDEX idx_ledger_business (business_name),
+  INDEX idx_ledger_time (timestamp)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS business_ledger (
+  business_name VARCHAR(255) NOT NULL,
+  current_balance INT NOT NULL DEFAULT 0,
+  last_updated DATETIME NOT NULL,
+  PRIMARY KEY (business_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS bot_ledger_message (
+  guild_id VARCHAR(32) NOT NULL,
+  message_id VARCHAR(32) NOT NULL,
+  updated_at DATETIME NOT NULL,
+  PRIMARY KEY (guild_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

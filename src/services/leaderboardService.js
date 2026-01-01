@@ -40,10 +40,12 @@ module.exports = function createLeaderboardService(pool, client, stockChannel, a
     const body = formatStock(rows);
     const channel = await client.channels.fetch(channelId);
     if (!channel || !channel.isTextBased()) return;
+    const ts = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const embed = new EmbedBuilder()
       .setTitle(appName || 'APP NAME')
       .setDescription(`📊 Live Inventory\n\n${body}`)
-      .setColor(0x2f3136);
+      .setColor(0x2f3136)
+      .setFooter({ text: `Updated at: ${ts}` });
     const existingId = await getStockMessageId(guildId);
     if (existingId) {
       try {

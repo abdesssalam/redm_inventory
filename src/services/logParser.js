@@ -5,7 +5,7 @@ module.exports = function parseLog(text) {
   let player = firstLine;
   const nameFromDeposit = clean.match(/^(.+?)\s+Deposited/i)?.[1]?.trim();
   const nameFromWithdraw = clean.match(/^(.+?)\s+Has\s+Taken\s+A/i)?.[1]?.trim();
-  const nameFromTransfer = clean.match(/^(.+?)\s+transferred/i)?.[1]?.trim();
+  const nameFromTransfer = clean.match(/(?:^|\n)(.+?)\s+transferred/i)?.[1]?.trim();
   player = nameFromDeposit || nameFromWithdraw || nameFromTransfer || player;
   const events = [];
   const depositMatch = clean.match(/Deposited\s+(\d+)\s+(.+?)\s+To\s+.+?Inventory/i);
@@ -29,7 +29,7 @@ module.exports = function parseLog(text) {
         if (Array.isArray(contents)) {
           for (const it of contents) {
             const qty = parseInt(it?.count, 10) || 0;
-            const label = (it?.label || it?.name || '').toString().trim().toLowerCase();
+            const label = (it?.name || it?.label || '').toString().trim().toLowerCase();
             if (label && qty > 0) {
               events.push({ transaction_type: 'DEPOSIT', quantity: qty, item_name: label, player_name: player });
             }

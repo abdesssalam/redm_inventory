@@ -5,6 +5,7 @@ module.exports = function createBillingRepository(pool) {
       VALUES (?, ?, ?, ?, 'UNPAID', ?)
       ON DUPLICATE KEY UPDATE id=id
     `;
+    console.log(sql);
     await pool.execute(sql, [timestamp, amount, issuer, customer, msgId]);
   }
   async function logBillPayment(amount, issuer, customer, timestamp, msgId) {

@@ -11,5 +11,8 @@ module.exports = {
   stockChannel: process.env.LIVE_STOCK_CHANNEL,
   appName: process.env.APP_NAME || 'APP NAME',
   billChannel: process.env.BILL_SUMARRY_CHANNEL,
-  billLogsChannel: process.env.BILL_LOGS_CHANNEL
+  billLogsChannel: process.env.BILL_LOGS_CHANNEL,
+  ledgerLogsChannel: process.env.LEADGER_LOGS_CHANNEL,
+  ledgerSummaryChannel: process.env.LEADGER_SUMMARY_CHANNEL,
+  businessName: process.env.BUSINESS_NAME
 }

@@ -1,8 +1,9 @@
 module.exports = function parseBill(text) {
   const clean = text.replace(/\r/g, '').replace(/\n/g, ' ').trim();
   const events = [];
-  const issueRegex = /(.+?)\s+Issued\s+A\s+Bill\s+Amount\s+Of\s+\$?([\d,]+)\s+To\s+(.+?)(?:\s+Discord:|$)/i;
-  const payRegex = /(.+?)\s+Paid\s+A\s+Bill\s+Amount\s+Of\s+\$?([\d,]+)\s+To\s+(.+?)(?:\s+Discord:|$)/i;
+  const trail = '(?:\\*\\*Discord:\\*\\*|Discord:|<@|$)';
+  const issueRegex = new RegExp(`(.+?)\\s+Issued\\s+A\\s+Bill\\s+Amount\\s+Of\\s+\\$?([\\d,]+)\\s+To\\s+(.+?)(?=\\s*${trail})`, 'i');
+  const payRegex = new RegExp(`(.+?)\\s+Paid\\s+A\\s+Bill\\s+Amount\\s+Of\\s+\\$?([\\d,]+)\\s+To\\s+(.+?)(?=\\s*${trail})`, 'i');
   const issueMatch = clean.match(issueRegex);
   if (issueMatch) {
     const amt = parseInt(issueMatch[2].replace(/,/g, ''), 10);
